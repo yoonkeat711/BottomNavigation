@@ -1,0 +1,6 @@
+module Pods_BottomNavigation {
+  umbrella header "Pods-BottomNavigation-umbrella.h"
+
+  export *
+  module * { export * }
+}
