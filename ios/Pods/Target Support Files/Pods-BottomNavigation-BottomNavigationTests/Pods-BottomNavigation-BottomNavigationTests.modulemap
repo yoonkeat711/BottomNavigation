@@ -1,0 +1,6 @@
+module Pods_BottomNavigation_BottomNavigationTests {
+  umbrella header "Pods-BottomNavigation-BottomNavigationTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
