@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Calls from '../screens/Calls';
 import Camera from '../screens/Camera';
@@ -13,10 +14,11 @@ import CameraIcon from './../assets/camera.png';
 import ChatIcon from './../assets/chat.png';
 import CallIcon from './../assets/call.png';
 import SettingsIcon from './../assets/settings.png';
+import { from } from 'core-js/fn/array';
 
 const THEME_COLOR = '#3333FF';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 const TabBarIcon = ({ icon, focused, customBadge }) => {
     return (
@@ -44,7 +46,12 @@ const BottomTab = () => {
     }
 
     return (
-        <Tab.Navigator initialRouteName={"Status"} tabBarOptions={{ activeTintColor: THEME_COLOR }}>
+        <Tab.Navigator 
+        initialRouteName={"Status"}
+         tabBarOptions={{ activeTintColor: THEME_COLOR }} 
+         shifting={true} 
+         activeColor={THEME_COLOR}
+         barStyle={{backgroundColor: 'white'}}>
             <Tab.Screen
                 name={"Status"}
                 component={Status}
