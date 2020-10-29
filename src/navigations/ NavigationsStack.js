@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Image, View } from 'react-native';
+import React, { useState, useRef, forwardRef } from 'react';
+import { Image, View, TouchableOpacity, Animated } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Calls from '../screens/Calls';
@@ -19,15 +19,32 @@ const THEME_COLOR = '#3333FF';
 const Tab = createBottomTabNavigator();
 
 const TabBarIcon = ({ icon, focused, customBadge }) => {
+
+    const iconAnimatedValue = useRef(new Animated.Value(0)).current;
+
+    const moveUpwards = () => {
+        console.warn('heer');
+        Animated.timing(iconAnimatedValue, {
+            toValue: 1,
+            duration: 150,
+            useNativeDriver: true,
+        }).start();
+    }
+
+    const focusedYVal = iconAnimatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 5],
+    });
+
     return (
-        <>
-            {customBadge && <View style={{ position: 'absolute', top: 8, right: 25, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
-            <Image
-                source={icon}
-                resizeMode={'contain'}
-                style={{ height: 30, width: 30, tintColor: focused ? THEME_COLOR : 'grey' }}
-            />
-        </>
+            <TouchableOpacity onPress={moveUpwards} style={focused ? { transform: [{translateY: focusedYVal}]} : {top: 5}}>
+                {customBadge && <View style={{ position: 'absolute', top: 8, right: 0, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
+                <Image
+                    source={icon}
+                    resizeMode={'contain'}
+                    style={{ height: 30, width: 30, tintColor: focused ? THEME_COLOR : 'grey' }}
+                />
+            </TouchableOpacity>
     )
 }
 
@@ -44,37 +61,46 @@ const BottomTab = () => {
     }
 
     return (
-        <Tab.Navigator initialRouteName={"Status"} tabBarOptions={{ activeTintColor: THEME_COLOR }}>
+        <Tab.Navigator
+            initialRouteName={"Status"}
+            tabBarOptions={{ activeTintColor: THEME_COLOR }}
+            screenOptions={({ route }) => ({
+                    tabBarIcon: ({focused, color, size}) => {
+                        let icon;
+                        let customBadge = false;
+                            if (route.name === 'Status') {
+                             icon = StatusIcon;
+                             customBadge = true;
+                            } else if (route.name === 'Calls') {
+                                icon = CallIcon;
+                            } else if (route.name === 'Camera') {
+                                icon = CameraIcon;
+                            } else if (route.name === 'Chats') {
+                                icon = ChatIcon;
+                            } else {
+                                icon = SettingsIcon;
+                            }
+
+                            return <TabBarIcon focused={focused} icon={icon} customBadge={customBadge} />
+                    }
+            })}
+        >
             <Tab.Screen
                 name={"Status"}
                 component={Status}
-                options={{
-                    tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={StatusIcon} customBadge={true} />,
-                }}
             />
             <Tab.Screen
                 name={"Calls"}
                 component={Calls}
-                options={{
-                    tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={CallIcon} />
-                }}
             />
             <Tab.Screen
                 name={"Camera"}
                 component={Camera}
-                options={{
-                    tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={CameraIcon} />
-                }}
             />
             <Tab.Screen
                 name={"Chats"}
                 component={Chats}
                 options={{
-                    tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={ChatIcon} />,
                     tabBarBadge: chatBadgeNumber,
                 }}
                 listeners={({ navigation, route }) => ({
@@ -85,8 +111,6 @@ const BottomTab = () => {
                 name={"Settings"}
                 component={Settings}
                 options={{
-                    tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={SettingsIcon} />,
                     tabBarBadge: settingsBadgeNumber,
                 }}
                 listeners={({ navigation, route }) => ({
