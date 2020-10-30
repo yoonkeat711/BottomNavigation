@@ -18,11 +18,14 @@ const THEME_COLOR = '#3333FF';
 
 const Tab = createBottomTabNavigator();
 
-const TabBarIcon = ({ icon, focused, customBadge }) => {
+const TabBarIcon = ({ icon, focused, customBadge, navigation, route }) => {
 
     const iconAnimatedValue = useRef(new Animated.Value(0)).current;
 
     const moveUpwards = () => {
+
+        navigation.navigate(route.name);
+
         Animated.timing(iconAnimatedValue, {
             toValue: 1,
             duration: 150,
@@ -51,7 +54,7 @@ const BottomTab = () => {
     const [chatBadgeNumber, setChatBadgeNumber] = useState(3);
     const [settingsBadgeNumber, setSettingsBadgeNumber] = useState(1);
 
-    const onDismissChatBadgeNumber = (e) => {
+    const onDismissChatBadgeNumber = () => {
         setChatBadgeNumber(null);
     }
 
@@ -63,7 +66,7 @@ const BottomTab = () => {
         <Tab.Navigator
             initialRouteName={"Status"}
             tabBarOptions={{ activeTintColor: THEME_COLOR }}
-            screenOptions={({ route }) => ({
+            screenOptions={({ route, navigation }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let icon;
                     let customBadge = false;
@@ -80,7 +83,7 @@ const BottomTab = () => {
                         icon = SettingsIcon;
                     }
 
-                    return <TabBarIcon focused={focused} icon={icon} customBadge={customBadge} />
+                    return <TabBarIcon focused={focused} icon={icon} customBadge={customBadge} navigation={navigation} route={route} />
                 }
             })}
         >
