@@ -14,7 +14,6 @@ import CameraIcon from './../assets/camera.png';
 import ChatIcon from './../assets/chat.png';
 import CallIcon from './../assets/call.png';
 import SettingsIcon from './../assets/settings.png';
-import { from } from 'core-js/fn/array';
 
 const THEME_COLOR = '#3333FF';
 
@@ -23,7 +22,7 @@ const Tab = createMaterialBottomTabNavigator();
 const TabBarIcon = ({ icon, focused, customBadge }) => {
     return (
         <>
-            {customBadge && <View style={{ position: 'absolute', top: 8, right: 25, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
+            {customBadge && <View style={{ position: 'absolute', top: 8, right: 0, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
             <Image
                 source={icon}
                 resizeMode={'contain'}

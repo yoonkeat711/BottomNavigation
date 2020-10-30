@@ -22,11 +22,9 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{ flex: 1 }}>
-        <PaperProvider>
-          <NavigationsStack />
-        </PaperProvider>
-      </SafeAreaView>
+      <PaperProvider>
+        <NavigationsStack />
+      </PaperProvider>
     </>
   );
 };
