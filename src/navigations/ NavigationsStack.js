@@ -1,5 +1,5 @@
-import React, { useState, useRef, forwardRef } from 'react';
-import { Image, View, TouchableOpacity, Animated } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Image, View, TouchableOpacity, Animated, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Calls from '../screens/Calls';
@@ -23,7 +23,6 @@ const TabBarIcon = ({ icon, focused, customBadge }) => {
     const iconAnimatedValue = useRef(new Animated.Value(0)).current;
 
     const moveUpwards = () => {
-        console.warn('heer');
         Animated.timing(iconAnimatedValue, {
             toValue: 1,
             duration: 150,
@@ -37,14 +36,14 @@ const TabBarIcon = ({ icon, focused, customBadge }) => {
     });
 
     return (
-            <TouchableOpacity onPress={moveUpwards} style={focused ? { transform: [{translateY: focusedYVal}]} : {top: 5}}>
-                {customBadge && <View style={{ position: 'absolute', top: 8, right: 0, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
-                <Image
-                    source={icon}
-                    resizeMode={'contain'}
-                    style={{ height: 30, width: 30, tintColor: focused ? THEME_COLOR : 'grey' }}
-                />
-            </TouchableOpacity>
+        <TouchableOpacity onPress={moveUpwards} style={focused ? { transform: [{ translateY: focusedYVal }] } : { top: 5 }}>
+            {customBadge && <View style={styles.customBadge} />}
+            <Image
+                source={icon}
+                resizeMode={'contain'}
+                style={[styles.icon, { tintColor: focused ? THEME_COLOR : 'grey' }]}
+            />
+        </TouchableOpacity>
     )
 }
 
@@ -65,24 +64,24 @@ const BottomTab = () => {
             initialRouteName={"Status"}
             tabBarOptions={{ activeTintColor: THEME_COLOR }}
             screenOptions={({ route }) => ({
-                    tabBarIcon: ({focused, color, size}) => {
-                        let icon;
-                        let customBadge = false;
-                            if (route.name === 'Status') {
-                             icon = StatusIcon;
-                             customBadge = true;
-                            } else if (route.name === 'Calls') {
-                                icon = CallIcon;
-                            } else if (route.name === 'Camera') {
-                                icon = CameraIcon;
-                            } else if (route.name === 'Chats') {
-                                icon = ChatIcon;
-                            } else {
-                                icon = SettingsIcon;
-                            }
-
-                            return <TabBarIcon focused={focused} icon={icon} customBadge={customBadge} />
+                tabBarIcon: ({ focused, color, size }) => {
+                    let icon;
+                    let customBadge = false;
+                    if (route.name === 'Status') {
+                        icon = StatusIcon;
+                        customBadge = true;
+                    } else if (route.name === 'Calls') {
+                        icon = CallIcon;
+                    } else if (route.name === 'Camera') {
+                        icon = CameraIcon;
+                    } else if (route.name === 'Chats') {
+                        icon = ChatIcon;
+                    } else {
+                        icon = SettingsIcon;
                     }
+
+                    return <TabBarIcon focused={focused} icon={icon} customBadge={customBadge} />
+                }
             })}
         >
             <Tab.Screen
@@ -130,4 +129,20 @@ const NavigationsStack = () => {
     )
 }
 
+
+const styles = StyleSheet.create({
+    customBadge: {
+        position: 'absolute',
+        top: 8,
+        right: 0,
+        backgroundColor: THEME_COLOR,
+        height: 8,
+        width: 8,
+        borderRadius: 4,
+    },
+    icon: {
+        width: 30,
+        height: 30,
+    }
+})
 export default NavigationsStack;
