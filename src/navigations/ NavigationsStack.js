@@ -17,7 +17,7 @@ import SettingsIcon from './../assets/settings.png';
 
 const THEME_COLOR = '#3333FF';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const TabBarIcon = ({ icon, focused, customBadge }) => {
     return (
@@ -50,6 +50,7 @@ const BottomTab = () => {
          tabBarOptions={{ activeTintColor: THEME_COLOR }} 
          shifting={true} 
          activeColor={THEME_COLOR}
+         
          barStyle={{backgroundColor: 'white'}}>
             <Tab.Screen
                 name={"Status"}
@@ -62,9 +63,12 @@ const BottomTab = () => {
             <Tab.Screen
                 name={"Calls"}
                 component={Calls}
+                // tabBarVisible={false}
                 options={{
+                
                     tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={CallIcon} />
+                        <TabBarIcon focused={focused} icon={CallIcon} />,
+                    //   tabBarVisible: false
                 }}
             />
             <Tab.Screen
