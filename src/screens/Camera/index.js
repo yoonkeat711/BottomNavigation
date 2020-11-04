@@ -1,22 +1,22 @@
 import React from 'react';
-import { Text, Animated } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 
-const Camera = ({navigation}) => {
+const Camera = ({ navigation }) => {
 
+    // show tab bar when scroll to top
     const onScroll = event => {
-            const currentOffset = event.nativeEvent.contentOffset.y;
-            if (currentOffset > 0) {
-                navigation.setOptions({tabBarVisible: false});
-            } else {
-                navigation.setOptions({tabBarVisible: true});
-            }
-       
+        const currentOffset = event.nativeEvent.contentOffset.y;
+        if (currentOffset > 0) {
+            navigation.setOptions({ tabBarVisible: false });
+        } else {
+            navigation.setOptions({ tabBarVisible: true });
+        }
     }
 
     return (
-        <Animated.ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} onScroll={e => onScroll(e)}>
+        <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', height: 1000}} onScroll={e => onScroll(e)} scrollEnabled={true}>
             <Text>Camera</Text>
-        </Animated.ScrollView>
+        </ScrollView>
     )
 }
 
