@@ -7,18 +7,22 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean:all": "watchman watch-del-all && rm -rf node_modules && rm -rf /tmp/metro-* && yarn install && yarn start --reset-cache "
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.10.0",
+    "@react-navigation/material-bottom-tabs": "^5.3.0",
     "@react-navigation/native": "^5.8.0",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-paper": "^4.2.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
-    "react-native-screens": "^2.11.0"
+    "react-native-screens": "^2.11.0",
+    "react-native-vector-icons": "^7.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

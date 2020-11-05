@@ -16,14 +16,15 @@ import {
   StatusBar,
 } from 'react-native';
 import NavigationsStack from './src/navigations/ NavigationsStack';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{flex: 1}}>
-       <NavigationsStack />
-      </SafeAreaView>
+      <PaperProvider>
+        <NavigationsStack />
+      </PaperProvider>
     </>
   );
 };

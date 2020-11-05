@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Calls from '../screens/Calls';
@@ -20,14 +20,14 @@ const Tab = createBottomTabNavigator();
 
 const TabBarIcon = ({ icon, focused, customBadge }) => {
     return (
-        <>
-            {customBadge && <View style={{ position: 'absolute', top: 8, right: 25, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
+        <View style={{width: 40}}>
+            {customBadge && <View style={{ position: 'absolute', top: 8, right: 0, backgroundColor: THEME_COLOR, height: 8, width: 8, borderRadius: 4 }} />}
             <Image
                 source={icon}
                 resizeMode={'contain'}
-                style={{ height: 30, width: 30, tintColor: focused ? THEME_COLOR : 'grey' }}
+                style={{ height: 30, width: 30, tintColor: focused ? THEME_COLOR : '#222'}}
             />
-        </>
+        </View>
     )
 }
 
@@ -44,7 +44,11 @@ const BottomTab = () => {
     }
 
     return (
-        <Tab.Navigator initialRouteName={"Status"} tabBarOptions={{ activeTintColor: THEME_COLOR }}>
+        <Tab.Navigator
+            initialRouteName={"Status"}
+            tabBarOptions={{ activeTintColor: THEME_COLOR }}
+            activeColor={THEME_COLOR}
+            barStyle={{ backgroundColor: 'white' }}>
             <Tab.Screen
                 name={"Status"}
                 component={Status}
@@ -58,7 +62,7 @@ const BottomTab = () => {
                 component={Calls}
                 options={{
                     tabBarIcon: ({ focused }) =>
-                        <TabBarIcon focused={focused} icon={CallIcon} />
+                        <TabBarIcon focused={focused} icon={CallIcon} />,
                 }}
             />
             <Tab.Screen
@@ -77,7 +81,7 @@ const BottomTab = () => {
                         <TabBarIcon focused={focused} icon={ChatIcon} />,
                     tabBarBadge: chatBadgeNumber,
                 }}
-                listeners={({ navigation, route }) => ({
+                listeners={() => ({
                     tabPress: () => onDismissChatBadgeNumber()
                 })}
             />
@@ -89,7 +93,7 @@ const BottomTab = () => {
                         <TabBarIcon focused={focused} icon={SettingsIcon} />,
                     tabBarBadge: settingsBadgeNumber,
                 }}
-                listeners={({ navigation, route }) => ({
+                listeners={() => ({
                     tabPress: () => onDismissSettingsBadgeNumber()
                 })}
             />

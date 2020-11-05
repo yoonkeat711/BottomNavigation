@@ -1,12 +1,28 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, { useState } from 'react';
+import { Text, ScrollView} from 'react-native';
 
-const Status = () => {
+const Status = ({navigation}) => {
+
+    const [offset, setOffset] = useState(0);
+
+    //show when scroll down, disappear when scroll up
+    const onScroll = event => {
+        const currentOffset = event.nativeEvent.contentOffset.y;
+
+        if (currentOffset > offset) {
+                navigation.setOptions({tabBarVisible: false});
+        } else {
+                navigation.setOptions({tabBarVisible: true});
+        }
+
+        setOffset(currentOffset);
+     
+    }
 
     return (
-        <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', height: 1000}} onScroll={e => onScroll(e)} scrollEnabled={true}>
             <Text>Status</Text>
-        </View>
+        </ScrollView>
     )
 }
 
